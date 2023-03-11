@@ -17,4 +17,8 @@ class Posts extends Model
             $post->slug = Str::slug($post->title);
         });
     }
+
+    public function getRouteKeyName() {
+        return 'slug';
+    }
 }

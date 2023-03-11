@@ -39,10 +39,10 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function show(Posts $posts)
+    public function show(Posts $post)
     {
         //
-        return response($posts, Response::HTTP_OK);
+        return response($post, Response::HTTP_OK);
     }
 
     /**
@@ -52,10 +52,10 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, Posts $posts)
+    public function update(PostRequest $request, Posts $post)
     {
         //
-        $posts->update($request->all());
+        $post->update($request->all());
         return response("Success Updated", Response::HTTP_OK);
     }
 
@@ -65,10 +65,10 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Posts $posts)
+    public function destroy(Posts $post)
     {
         //
-        $posts->delete();
+        $post->delete();
         return response("Success Deleted", Response::HTTP_OK);
     }
 }

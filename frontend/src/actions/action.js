@@ -9,6 +9,9 @@ export async function makePost(postData) {
 
 export async function fetchAllPost(page) {
     const {data} = await axios.get(baseURL+"?page="+page);
-    // console.log(data);
     return data;
+}
+
+export function fetchSinglePost(slug) {
+    return axios.get(baseURL+"/"+slug);
 }

@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 
-export function queryData(action) {
+export function querySingleData(action) {
     return useQuery("posts", action);
 }
 

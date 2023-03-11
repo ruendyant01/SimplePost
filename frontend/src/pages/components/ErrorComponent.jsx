@@ -5,7 +5,7 @@ export default function ErrorComponent({error}) {
         <Alert status='error'>
           <AlertIcon />
           <AlertTitle>Something Wrong</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>{error.response.data.message}</AlertDescription>
         </Alert>
     )
 }
