@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::paginate(3);
+        $posts = Posts::paginate(5);
         return response($posts, Response::HTTP_OK);
     }
 

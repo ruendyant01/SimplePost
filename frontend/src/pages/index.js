@@ -1,12 +1,28 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import { Button, Heading, SimpleGrid, Text } from '@chakra-ui/react'
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import { Button, Container, Flex, HStack, SimpleGrid, Spacer, Icon, Box, Heading } from '@chakra-ui/react'
+import CardComponent from './components/CardComponent'
+import Link from 'next/link'
+import queryData from '@/helpers/query'
+import { fetchAllPost } from '@/actions/action'
+import Preloader from './components/Preloader'
+import ErrorComponent from './components/ErrorComponent'
+import { ArrowLeftIcon,ArrowRightIcon } from '@chakra-ui/icons'
+
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const {isLoading, data, error, isError} = queryData(fetchAllPost);
+
+  if(isLoading) {
+    return <Preloader />
+  } else if(isError) {
+    return <ErrorComponent error={error} />
+  } else {
+
   return (
     <>
       <Head>
@@ -16,42 +32,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Container maxW="container.xl">
+        <Flex flexDirection='column'>
+        <Button mb={10} px={10} colorScheme="telegram" alignSelf="flex-end">
+          <Link href="/create-form">+Create</Link>
+        </Button>
       <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
-        <Card>
-          <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
-          </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
-          </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
-          </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
-        </Card>
+        {
+          data.data.map(val => {
+            return <CardComponent data={val} />
+          })
+        }
       </SimpleGrid>
+        <HStack spacing={10} mt={10} alignSelf="center">
+          <Button ><ArrowLeftIcon /></Button>
+          <Heading color="black" size="md">{data.current_page}</Heading>
+          <Button ><ArrowRightIcon /></Button>
+        </HStack>
+      </Flex>
+      </Container>
       </main>
     </>
   )
+}
 }

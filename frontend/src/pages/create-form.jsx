@@ -1,5 +1,26 @@
+import { makePost } from '@/actions/action';
+import mutation from '@/helpers/mutation';
+import { Button, Container, Flex, Heading, Input, Textarea } from '@chakra-ui/react'
+import { useForm } from "react-hook-form";
+
+
 export default function Create() {
-    return <div>
-        <h2>Testing</h2>
-    </div>
+    const mutations = mutation(makePost);
+    const {register, handleSubmit} = useForm();
+
+    const hanSubmit = (data) => {
+        mutations.mutate(data);
+    }
+
+    return <Container>
+        <form onSubmit={handleSubmit(hanSubmit)}>
+        <Flex alignItems="center" flexDirection="column">
+            <Heading marginY="1rem" as="h1" size="xl" >Create Post</Heading>
+            <Input placeholder='Title' marginY="1rem" {...register("title", {required:true})}/>
+            <Textarea placeholder='Body'marginY="1rem" {...register("body", {required:true, min:10})}/>
+            <Button {...(mutations.isLoading ? {isLoading:true, loadingText:"Processing"} : {})} colorScheme='linkedin' mt="2rem" type='submit'>Add</Button>
+            
+        </Flex>
+        </form>
+    </Container>
 }
