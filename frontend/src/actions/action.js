@@ -7,7 +7,8 @@ export async function makePost(postData) {
     return data;
 }
 
-export async function fetchAllPost() {
-    const {data} = await axios.get(baseURL);
+export async function fetchAllPost(page) {
+    const {data} = await axios.get(baseURL+"?page="+page);
+    // console.log(data);
     return data;
 }

@@ -3,19 +3,30 @@ import { Inter } from 'next/font/google'
 import { Button, Container, Flex, HStack, SimpleGrid, Spacer, Icon, Box, Heading } from '@chakra-ui/react'
 import CardComponent from './components/CardComponent'
 import Link from 'next/link'
-import queryData from '@/helpers/query'
 import { fetchAllPost } from '@/actions/action'
 import Preloader from './components/Preloader'
 import ErrorComponent from './components/ErrorComponent'
 import { ArrowLeftIcon,ArrowRightIcon } from '@chakra-ui/icons'
+import { useRouter } from 'next/router'
+import { paginateQuery } from '@/helpers/query'
+import { useState } from 'react'
 
 
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const router = useRouter();
+  const [page, setPage] = useState(router.query?.page ? router.query.page : 1)
+  const {isLoading, data, error, isError} = paginateQuery(fetchAllPost, page);
 
-  const {isLoading, data, error, isError} = queryData(fetchAllPost);
+  const nextPage = () => {
+    setPage(page+1);
+  }
+
+  const prevPage = () => {
+    setPage(page-1);
+  }
 
   if(isLoading) {
     return <Preloader />
@@ -40,14 +51,14 @@ export default function Home() {
       <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
         {
           data.data.map(val => {
-            return <CardComponent data={val} />
+            return <CardComponent data={val} key={val.id}/>
           })
         }
       </SimpleGrid>
         <HStack spacing={10} mt={10} alignSelf="center">
-          <Button ><ArrowLeftIcon /></Button>
+          <Button as="button" onClick={prevPage} isDisabled={!data.prev_page_url}><ArrowLeftIcon /></Button>
           <Heading color="black" size="md">{data.current_page}</Heading>
-          <Button ><ArrowRightIcon /></Button>
+          <Button as="button" onClick={nextPage} isDisabled={!data.next_page_url}><ArrowRightIcon /></Button>
         </HStack>
       </Flex>
       </Container>
