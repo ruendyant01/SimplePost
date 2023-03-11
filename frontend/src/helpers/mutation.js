@@ -2,13 +2,13 @@ import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 
 
-export default function mutation(action,type) {
+export default function mutation(action) {
     const toast = useToast();
     return useMutation(action, {
         onSuccess: (data,variables,context) => {
             toast({
                 title: data,
-                status: type,
+                status: "success",
                 duration: 9000,
                 isClosable: true,
               })

@@ -31,7 +31,7 @@ export default function Home() {
   if(isLoading) {
     return <Preloader />
   } else if(isError) {
-    return <ErrorComponent error={error} />
+    return <ErrorComponent error={error} /> 
   } else {
 
   return (

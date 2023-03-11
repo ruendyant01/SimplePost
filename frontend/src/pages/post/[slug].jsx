@@ -1,6 +1,7 @@
 import { fetchSinglePost } from "@/actions/action";
 import { querySingleData } from "@/helpers/query";
-import { Container, Heading, Text, useQuery } from "@chakra-ui/react";
+import { Button, ButtonGroup, Container, Flex, Heading, Text, useQuery } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ErrorComponent from "../components/ErrorComponent";
@@ -14,8 +15,6 @@ export default function Show() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // const {isLoading, data,error, isError} = querySingleData(() => fetchSinglePost(slug));
-
     useEffect(() => {
         if(router.isReady) {
             setLoading(true);
@@ -27,7 +26,6 @@ export default function Show() {
             .finally(() => setLoading(false));
         }
     }, [router.isReady])
-    console.log(data);
 
     if(loading) {
         return <Preloader />
@@ -36,9 +34,15 @@ export default function Show() {
     } else {
 
     return (
-        <Container maxW="container.lg">
-            <Heading>{data?.title}</Heading>
-            <Text maxW="30%">{data?.body}</Text>
+        <Container maxW="container.md">
+            <Flex justifyContent="space-between">
+                <Heading mb={10}>{data?.title}</Heading>
+                <ButtonGroup spacing={8} variant="outline">
+                    <Button colorScheme="yellow"><Link href={'/edit/'+data?.slug}>Edit</Link></Button>
+                    <Button colorScheme="red">Delete</Button>
+                </ButtonGroup>
+            </Flex>
+            <Text maxW="60%">{data?.body}</Text>
         </Container>
 
     );

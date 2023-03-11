@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useQuery } from 'react-query';
 
 const baseURL = "http://localhost:8000/api/post";
 
@@ -14,4 +15,9 @@ export async function fetchAllPost(page) {
 
 export function fetchSinglePost(slug) {
     return axios.get(baseURL+"/"+slug);
+}
+
+export async function updatePost(datas) {
+    const {data} = await axios.patch(baseURL+"/"+datas.slug, datas.datas);
+    return data;
 }
