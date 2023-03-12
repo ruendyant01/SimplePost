@@ -25,16 +25,11 @@ export default function Home() {
   const hanDelete = (slug) => {
     mutations.mutate(slug, {
       onSuccess:() => {
+        router.reload("/");
         data.data = data.data.filter(val => val.slug !== slug)
       }
     })
   }
-
-  useEffect(() => {
-    if(data?.data.length === 0) {
-      router.reload("/")
-    }
-  }, [data?.data])
 
   const nextPage = () => {
     setPage(page+1);

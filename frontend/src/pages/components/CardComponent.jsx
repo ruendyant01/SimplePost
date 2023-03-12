@@ -15,8 +15,7 @@ export default function CardComponent({data, hanDelete}) {
             <Text noOfLines={5}>{data.body}</Text>
           </CardBody>
           <CardFooter>
-              <Button mr="auto">View</Button>
-              <Button onClick={() => hanDelete(data.slug)}><DeleteIcon color="red" /></Button>
+              <Button ml="auto" onClick={() => hanDelete(data.slug)}><DeleteIcon color="red" /></Button>
           </CardFooter>
         </Card>
         </LinkBox>
