@@ -9,7 +9,7 @@ import ErrorComponent from './components/ErrorComponent'
 import { ArrowLeftIcon,ArrowRightIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { paginateQuery } from '@/helpers/query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import mutation from '@/helpers/mutation'
 
 
@@ -23,9 +23,18 @@ export default function Home() {
   const mutations = mutation(deletePost);
 
   const hanDelete = (slug) => {
-    mutations.mutate(slug)
-    if(mutations.isSuccess) data.data = data.data.filter(val => val.slug !== slug);
+    mutations.mutate(slug, {
+      onSuccess:() => {
+        data.data = data.data.filter(val => val.slug !== slug)
+      }
+    })
   }
+
+  useEffect(() => {
+    if(data?.data.length === 0) {
+      router.reload("/")
+    }
+  }, [data?.data])
 
   const nextPage = () => {
     setPage(page+1);

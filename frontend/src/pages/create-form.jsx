@@ -5,10 +5,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ErrorComponent from './components/ErrorComponent';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 
 export default function Create() {
     const mutations = mutation(makePost);
+    const router = useRouter();
 
     const schemas = yup.object({
         title: yup.string().required(),
@@ -20,7 +23,11 @@ export default function Create() {
     });
 
     const hanSubmit = (data) => {
-        mutations.mutate(data);
+        mutations.mutate(data, {
+            onSuccess: () => {
+                router.push("/");
+            }
+        });
         reset();
     }
 
