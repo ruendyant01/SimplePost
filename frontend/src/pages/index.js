@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import { Button, Container, Flex, HStack, SimpleGrid, Spacer, Icon, Box, Heading } from '@chakra-ui/react'
+import { Button, Container, Flex, HStack, SimpleGrid, Heading } from '@chakra-ui/react'
 import CardComponent from './components/CardComponent'
 import Link from 'next/link'
 import { deletePost, fetchAllPost } from '@/actions/action'
@@ -9,7 +9,7 @@ import ErrorComponent from './components/ErrorComponent'
 import { ArrowLeftIcon,ArrowRightIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { paginateQuery } from '@/helpers/query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import mutation from '@/helpers/mutation'
 
 
