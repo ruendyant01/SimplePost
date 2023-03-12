@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 export default function mutation(action) {
     const toast = useToast();
     return useMutation(action, {
-        onSuccess: (data,variables,context) => {
+        onSuccess: (data) => {
             toast({
                 title: data,
                 status: "success",
@@ -13,7 +13,7 @@ export default function mutation(action) {
                 isClosable: true,
               })
         },
-        onError: (err,variables,context) => {
+        onError: (err) => {
             toast({
                 title: err.response.data.message,
                 status: 'error',

@@ -3,13 +3,14 @@ import { Inter } from 'next/font/google'
 import { Button, Container, Flex, HStack, SimpleGrid, Spacer, Icon, Box, Heading } from '@chakra-ui/react'
 import CardComponent from './components/CardComponent'
 import Link from 'next/link'
-import { fetchAllPost } from '@/actions/action'
+import { deletePost, fetchAllPost } from '@/actions/action'
 import Preloader from './components/Preloader'
 import ErrorComponent from './components/ErrorComponent'
 import { ArrowLeftIcon,ArrowRightIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { paginateQuery } from '@/helpers/query'
 import { useState } from 'react'
+import mutation from '@/helpers/mutation'
 
 
 
@@ -19,6 +20,12 @@ export default function Home() {
   const router = useRouter();
   const [page, setPage] = useState(router.query?.page ? router.query.page : 1)
   const {isLoading, data, error, isError} = paginateQuery(fetchAllPost, page);
+  const mutations = mutation(deletePost);
+
+  const hanDelete = (slug) => {
+    mutations.mutate(slug)
+    if(mutations.isSuccess) data.data = data.data.filter(val => val.slug !== slug);
+  }
 
   const nextPage = () => {
     setPage(page+1);
@@ -51,7 +58,7 @@ export default function Home() {
       <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
         {
           data.data.map(val => {
-            return <CardComponent data={val} key={val.id}/>
+            return <CardComponent data={val} key={val.id} hanDelete={hanDelete}/>
           })
         }
       </SimpleGrid>

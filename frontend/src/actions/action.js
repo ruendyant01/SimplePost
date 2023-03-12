@@ -21,3 +21,8 @@ export async function updatePost(datas) {
     const {data} = await axios.patch(baseURL+"/"+datas.slug, datas.datas);
     return data;
 }
+
+export async function deletePost(slug) {
+    const {data} = await axios.delete(baseURL+"/"+slug);
+    return data;
+}
