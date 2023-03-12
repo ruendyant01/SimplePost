@@ -9,7 +9,7 @@ export default function mutation(action) {
             toast({
                 title: data,
                 status: "success",
-                duration: 9000,
+                duration: 2000,
                 isClosable: true,
               })
         },
@@ -17,7 +17,7 @@ export default function mutation(action) {
             toast({
                 title: err.response.data.message,
                 status: 'error',
-                duration: 9000,
+                duration: 2000,
                 isClosable: true,
               })
         }
